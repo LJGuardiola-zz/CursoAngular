@@ -1,0 +1,41 @@
+<div class="login">
+
+  <mat-card [formGroup]="form">
+
+    <mat-card-title>Iniciar sesión</mat-card-title>
+    <mat-card-content>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input autocomplete="off" formControlName="username" matInput type="email">
+        <mat-icon matSuffix>person</mat-icon>
+        <mat-error *ngIf="controls.username.errors?.required">
+          Este campo es requerido
+        </mat-error>
+        <mat-error *ngIf="controls.username.errors?.email">
+          El email ingresado no es válido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Contraseña</mat-label>
+        <input autocomplete="off" formControlName="password" matInput type="password">
+        <mat-icon matSuffix>lock</mat-icon>
+        <mat-error *ngIf="controls.password.errors?.required">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <button (click)="submit()" [disabled]="form.invalid || loading" color="primary" mat-button mat-raised-button>
+        Iniciar sesión
+      </button>
+
+    </mat-card-content>
+
+    <mat-card-footer>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    </mat-card-footer>
+
+  </mat-card>
+
+</div>

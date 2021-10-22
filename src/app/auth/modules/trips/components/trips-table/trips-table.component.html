@@ -1,0 +1,77 @@
+<div class="header">
+
+  <button (click)="new()" color="primary" mat-mini-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Filtro</mat-label>
+    <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
+  </mat-form-field>
+
+</div>
+
+<div class="mat-elevation-z8">
+
+  <table [dataSource]="source" mat-table matSort>
+
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+      <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="departure">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Salida</th>
+      <td *matCellDef="let row" mat-cell> {{ row.departure }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="destination">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Destino</th>
+      <td *matCellDef="let row" mat-cell>{{ row.destination }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Fecha de salida</th>
+      <td *matCellDef="let row" mat-cell>{{ row.startDate | unixDateShow }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Fecha de llegada</th>
+      <td *matCellDef="let row" mat-cell>{{ row.endDate | unixDateShow }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalSeats">
+      <th *matHeaderCellDef mat-header-cell>Asientos totales</th>
+      <td *matCellDef="let row" mat-cell>{{ row.bus.numberOfSeats }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="freeSeats">
+      <th *matHeaderCellDef mat-header-cell>Asientos libres</th>
+      <td *matCellDef="let row" mat-cell>{{ row.bus.numberOfSeats - row.passengers.length }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="detail">
+      <th *matHeaderCellDef mat-header-cell>Detalle</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="detail(row.id)" mat-icon-button matTooltip="Ver detalle">
+          <mat-icon color="primary">reorder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="columns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: columns;" mat-row></tr>
+
+    <tr *matNoDataRow class="mat-row">
+      <td *ngIf="input.value !== ''" class="mat-cell" colspan="4">
+        No hay datos que coincidan con el filtro "{{ input.value }}"
+      </td>
+      <td *ngIf="input.value === ''" class="mat-cell" colspan="4">
+        No hay viajes
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+</div>

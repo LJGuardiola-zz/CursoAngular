@@ -1,0 +1,56 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <mat-card>
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content class="card-form">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Patente</mat-label>
+        <input formControlName="licensePlate" matInput required>
+        <mat-error *ngIf="controls.licensePlate.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Marca</mat-label>
+        <mat-select [compareWith]="compare" formControlName="brand" required>
+          <mat-option *ngFor="let brand of brands" [value]="brand">
+            {{ brand.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="controls.brand.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Modelo</mat-label>
+        <mat-select [compareWith]="compare" formControlName="model" required>
+          <mat-option *ngFor="let model of models" [value]="model">
+            {{ model.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="controls.model.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Cantidad de asientos</mat-label>
+        <input formControlName="numberOfSeats" matInput required type="number">
+        <mat-error *ngIf="controls.numberOfSeats.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="cancel()" mat-button>Cancelar</button>
+      <button [disabled]="form.invalid || loading" color="accent" mat-button>Guardar</button>
+    </mat-card-actions>
+    <mat-card-footer>
+      <p class="italic">* Campo obligatorio</p>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+</form>

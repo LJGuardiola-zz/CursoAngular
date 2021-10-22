@@ -1,0 +1,24 @@
+table {
+  width: 100%;
+}
+
+.mat-column-detail {
+  width: 80px;
+  text-align: center;
+}
+
+.mat-column-freeSeats, .mat-column-totalSeats {
+  width: 150px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px;
+
+  h3 {
+    font-size: 18px;
+  }
+}

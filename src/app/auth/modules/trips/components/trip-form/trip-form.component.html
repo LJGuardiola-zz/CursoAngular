@@ -1,0 +1,86 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <mat-card>
+    <mat-card-title>{{ title }}</mat-card-title>
+    <mat-card-content class="card-form">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Salida</mat-label>
+        <input formControlName="departure" matInput required>
+        <mat-error *ngIf="controls.departure.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Destino</mat-label>
+        <input formControlName="destination" matInput required>
+        <mat-error *ngIf="controls.destination.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha y hora de salida</mat-label>
+        <input formControlName="startDate" matInput required type="datetime-local">
+        <mat-error *ngIf="controls.startDate.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+        <mat-error *ngIf="!controls.startDate.errors?.required &&  controls.startDate.errors?.future">
+          La fecha y hora debe ser a futuro
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha y hora de llegada</mat-label>
+        <input formControlName="endDate" matInput required type="datetime-local">
+        <mat-error *ngIf="controls.endDate.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+        <mat-error *ngIf="!controls.endDate.errors?.required &&  controls.endDate.errors?.future">
+          La fecha y hora debe ser a futuro
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Colectivo</mat-label>
+        <mat-select [compareWith]="compare" formControlName="bus" required>
+          <mat-option *ngFor="let bus of buses" [value]="bus">
+            {{ bus.licensePlate }} | {{ bus.model.brand.name }} - {{ bus.model.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="controls.bus.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pasajeros</mat-label>
+        <mat-select [compareWith]="compare" formControlName="passengers" multiple required>
+          <mat-option *ngFor="let passenger of passengers" [value]="passenger">
+            {{ passenger.showName() }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="controls.passengers.errors?.required">
+          Este campo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="cancel()" mat-button>Cancelar</button>
+      <button [disabled]="form.invalid || loading" color="accent" mat-button>Guardar</button>
+      <div *ngIf="controls.startDate.value && controls.endDate.value && form.hasError('checkStartEnd')" class="error">
+        <mat-icon>error</mat-icon>
+        <p>La fecha y hora de llegada debe ser posterior a la fecha y hora de salida</p>
+      </div>
+      <div *ngIf="controls.bus.value && controls.passengers.value && form.hasError('maxPassengers')" class="error">
+        <mat-icon>error</mat-icon>
+        <p>Superó la capacidad máxima de pasajeros del colectivo seleccionado</p>
+      </div>
+    </mat-card-actions>
+    <mat-card-footer>
+      <p class="italic">* Campo obligatorio</p>
+      <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+    </mat-card-footer>
+  </mat-card>
+</form>

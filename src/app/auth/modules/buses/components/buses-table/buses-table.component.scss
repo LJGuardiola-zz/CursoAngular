@@ -1,0 +1,19 @@
+table {
+  width: 100%;
+}
+
+.mat-column-detail, .mat-column-delete {
+  width: 80px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px;
+
+  h3 {
+    font-size: 18px;
+  }
+}

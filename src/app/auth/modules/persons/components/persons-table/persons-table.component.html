@@ -1,0 +1,71 @@
+<div class="header">
+
+  <button (click)="new()" color="primary" mat-mini-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Filtro</mat-label>
+    <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
+  </mat-form-field>
+
+</div>
+
+<div class="mat-elevation-z8">
+
+  <table [dataSource]="source" mat-table matSort>
+
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+      <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Nombre</th>
+      <td *matCellDef="let row" mat-cell> {{ row.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Apellido</th>
+      <td *matCellDef="let row" mat-cell>{{ row.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="age">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Edad</th>
+      <td *matCellDef="let row" mat-cell>{{ row.age }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="detail">
+      <th *matHeaderCellDef mat-header-cell>Detalle</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="detail(row.id)" mat-icon-button matTooltip="Ver detalle">
+          <mat-icon color="primary">reorder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th *matHeaderCellDef mat-header-cell>Eliminar</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="delete(row.id)" color="warn" mat-icon-button matTooltip="Eliminar">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="columns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: columns;" mat-row></tr>
+
+    <tr *matNoDataRow class="mat-row">
+      <td *ngIf="input.value !== ''" class="mat-cell" colspan="4">
+        No hay datos que coincidan con el filtro "{{ input.value }}"
+      </td>
+      <td *ngIf="input.value === ''" class="mat-cell" colspan="4">
+        No hay personas
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+</div>

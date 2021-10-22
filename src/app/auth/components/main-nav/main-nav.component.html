@@ -1,0 +1,50 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false"
+               class="sidenav"
+               fixedInViewport>
+    <mat-toolbar>Menú</mat-toolbar>
+    <mat-nav-list role="navigation">
+      <a mat-list-item routerLink="/home" routerLinkActive="active">
+        <mat-icon color="primary" mat-list-icon>home</mat-icon>
+        <h3 mat-line>Inicio</h3>
+      </a>
+      <a mat-list-item routerLink="/persons" routerLinkActive="active">
+        <mat-icon color="primary" mat-list-icon>people</mat-icon>
+        <h3 mat-line>Personas</h3>
+      </a>
+      <a mat-list-item routerLink="/buses" routerLinkActive="active">
+        <mat-icon color="primary" mat-list-icon>directions_bus</mat-icon>
+        <h3 mat-line>Colectivos</h3>
+      </a>
+      <a mat-list-item routerLink="/trips" routerLinkActive="active">
+        <mat-icon color="primary" mat-list-icon>timeline</mat-icon>
+        <h3 mat-line>Viajes</h3>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        type="button">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span style="margin-left: 5px">Curso de Angular</span>
+      <span class="spacer"></span>
+      <button mat-button>
+        {{ auth.email }}
+      </button>
+      <button (click)="logout()" mat-icon-button>
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

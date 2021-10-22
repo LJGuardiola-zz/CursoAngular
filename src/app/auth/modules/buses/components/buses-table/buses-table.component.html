@@ -1,0 +1,76 @@
+<div class="header">
+
+  <button (click)="new()" color="primary" mat-mini-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <mat-form-field appearance="standard">
+    <mat-label>Filtro</mat-label>
+    <input #input (keyup)="applyFilter($event)" autocomplete="off" matInput>
+  </mat-form-field>
+
+</div>
+
+<div class="mat-elevation-z8">
+
+  <table [dataSource]="source" mat-table matSort>
+
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>ID</th>
+      <td *matCellDef="let row" mat-cell>{{ row.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="licensePlate">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Patente</th>
+      <td *matCellDef="let row" mat-cell> {{ row.licensePlate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="brand">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Marca</th>
+      <td *matCellDef="let row" mat-cell>{{ row.model.brand.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="model">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Modelo</th>
+      <td *matCellDef="let row" mat-cell>{{ row.model.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numberOfSeats">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Cantidad de asientos</th>
+      <td *matCellDef="let row" mat-cell>{{ row.numberOfSeats }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="detail">
+      <th *matHeaderCellDef mat-header-cell>Detalle</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="detail(row.id)" mat-icon-button matTooltip="Ver detalle">
+          <mat-icon color="primary">reorder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th *matHeaderCellDef mat-header-cell>Eliminar</th>
+      <td *matCellDef="let row" mat-cell>
+        <button (click)="delete(row.id)" color="warn" mat-icon-button matTooltip="Eliminar">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="columns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: columns;" mat-row></tr>
+
+    <tr *matNoDataRow class="mat-row">
+      <td *ngIf="input.value !== ''" class="mat-cell" colspan="4">
+        No hay datos que coincidan con el filtro "{{ input.value }}"
+      </td>
+      <td *ngIf="input.value === ''" class="mat-cell" colspan="4">
+        No hay colectivos
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+
+</div>
